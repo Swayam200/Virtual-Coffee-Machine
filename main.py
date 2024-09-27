@@ -81,21 +81,27 @@ def money_calculation(money_paid, coffee_name):
     coffee_cost = MENU[coffee_name]['cost']
     if money_paid < coffee_cost:
         print("Sorry that's not enough money. Money refunded.")
-        return
+        return False
     elif money_paid == coffee_cost:
         resources['money'] += coffee_cost
     else:
         change_amount = round(money_paid - coffee_cost, 2)
         resources['money'] += coffee_cost
         print(f"Here is ${change_amount} dollars in change.")
+    return True
 
 
-def resource_calculation(coffee_menu, coffee_name):
-    resources['water'] -= coffee_menu['water']
-    resources['coffee'] -= coffee_menu['coffee']
-    if 'milk' in coffee_menu:
-        resources['milk'] -= coffee_menu['milk']
-    print(f"Here is your {coffee_name}. ☕️ Enjoy!")
+def resource_calculation(coffee_menu, coffee_name, money_calculated):
+    if money_calculated:
+        resources['water'] -= coffee_menu['water']
+        resources['coffee'] -= coffee_menu['coffee']
+        if 'milk' in coffee_menu:
+            resources['milk'] -= coffee_menu['milk']
+
+
+def coffee_message(money_calculated, coffee_name):
+    if money_calculated:
+        print(f"Here is your {coffee_name}. ☕️ Enjoy!")
 
 
 def resource_checker(user_choice):
@@ -104,24 +110,24 @@ def resource_checker(user_choice):
         espresso_available = resource_checker_message(espresso_menu, 'Espresso')
         if espresso_available:
             money_paid = insert_coins()
-            money_calculation(money_paid, 'espresso')
-            resource_calculation(espresso_menu, 'espresso')
+            money_calculated = money_calculation(money_paid, 'espresso')
+            resource_calculation(espresso_menu, 'espresso', money_calculated)
 
     elif user_choice == 'latte':
         latte_menu = MENU['latte']['ingredients']
         latte_available = resource_checker_message(latte_menu, 'Latte')
         if latte_available:
             money_paid = insert_coins()
-            money_calculation(money_paid, 'latte')
-            resource_calculation(latte_menu, 'latte')
+            money_calculated = money_calculation(money_paid, 'latte')
+            resource_calculation(latte_menu, 'latte', money_calculated)
 
     elif user_choice == 'cappuccino':
         cappuccino_menu = MENU['cappuccino']['ingredients']
         cappuccino_available = resource_checker_message(cappuccino_menu, 'Espresso')
         if cappuccino_available:
             money_paid = insert_coins()
-            money_calculation(money_paid, 'cappuccino')
-            resource_calculation(cappuccino_menu, 'cappuccino')
+            money_calculated = money_calculation(money_paid, 'cappuccino')
+            resource_calculation(cappuccino_menu, 'cappuccino', money_calculated)
 
 
 def coffee_machine():
