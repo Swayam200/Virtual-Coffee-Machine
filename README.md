@@ -1,4 +1,4 @@
-# Virtual-Coffee-Machine
+# Virtual Coffee Machine
 ![coffee](https://github.com/user-attachments/assets/b6866a05-cf7b-42eb-83e9-c79e683ee966)
 Who wants some coffee ? 
 A virtual coffee machine I made using Python!
